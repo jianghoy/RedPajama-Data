@@ -14,6 +14,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# poetry
+pyproject.toml
+poetry.lock
+
 # ides
 .idea/
 .vscode/
