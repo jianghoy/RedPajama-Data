@@ -46,6 +46,7 @@ To run with docker, build the docker image using
 ```bash
 . configs/default.conf
 cd app
+poetry export --without-hashes --format=requirements.txt > requirements.txt
 docker build -t "${DOCKER_REPO}:" .
 
 ```
