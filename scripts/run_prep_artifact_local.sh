@@ -80,6 +80,8 @@ echo "Toal number of listings: $num_listings"
 # copy config to artifacts dir
 cp "$CONFIG_FILE" "${ARTIFACTS_DIR%/}/config.conf"
 
+echo " for now stop here and see if everything works out of the box"
+exit 1
 # Reset artifacts dir on docker mounted volume
 ARTIFACTS_DIR="${DOCKER_MNT_DIR%/}/artifacts-${RUN_ID}"
 for lang in "${LANGUAGES[@]}"; do
