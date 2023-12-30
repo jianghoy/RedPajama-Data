@@ -58,7 +58,7 @@ if [ ! -f "${RAW_LISTINGS_FILE}" ]; then
   s5cmd --profile "$S3_PROFILE" --endpoint-url "$S3_ENDPOINT_URL" \
     ls "${S3_BUCKET%/}${S3_CCNET_PREFIX%/}/*" |
     grep "\.json\.gz$" | awk '{print $NF}' >"${LISTINGS_FILE}"
-  echo "__FETCH_LISTINGS_END__  @ $(date) Done tetching listings from s3 bucket."
+  echo "__FETCH_LISTINGS_END__  @ $(date) Done fetching listings from s3 bucket."
 else
   cp "${RAW_LISTINGS_FILE}" "${LISTINGS_FILE}"
   echo "copied listings file from ${RAW_LISTINGS_FILE} to ${LISTINGS_FILE}"
