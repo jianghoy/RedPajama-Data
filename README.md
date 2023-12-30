@@ -51,7 +51,7 @@ docker build -t "${DOCKER_REPO}:" .
 
 ```
 
-Also, make sure you have `s5cmd` installed and your S3 profile configured so that you can pull data from an S3 bucket.
+Also, make sure you have [s5cmd](https://github.com/peak/s5cmd) installed and your [S3 profile configured so that you can pull data from an S3 bucket](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
 
 You can run the steps of the pipeline without any containerized environment. However, the running scripts assume you
 have a docker and apptainer installation.
@@ -82,10 +82,9 @@ To create the remaining artifacts, make sure that the environment variables are 
 the root directory of the repository, run
 
 ```bash
-bash scripts/run_prep_artifacts.sh \
+bash scripts/run_prep_artifacts_local.sh \
   --config configs/default.conf \
-  --listings /path/to/listings/file.txt\
-  --max_workers 32
+  --max_workers 4
 ```
 
 where `/path/to/listings/file.txt` is a file that contains the keys to the ccnet data that you want to process

@@ -52,43 +52,43 @@ if [ ! -f "${ARTIFACTS_DIR%/}/_RUN_ID" ]; then
   echo "$RUN_ID" >"${ARTIFACTS_DIR%/}/_RUN_ID"
 fi
 
+echo "Skip listing for now since we are not using cc-net dataset"
+
 # fetch listings from s3 bucket if the listings file does not exist
-if [ ! -f "${RAW_LISTINGS_FILE}" ]; then
-  echo "__FETCH_LISTINGS_START__  @ $(date) Fetching listings from s3 bucket..."
-  s5cmd --profile "$S3_PROFILE" --endpoint-url "$S3_ENDPOINT_URL" \
-    ls "${S3_BUCKET%/}${S3_CCNET_PREFIX%/}/*" |
-    grep "\.json\.gz$" | awk '{print $NF}' >"${LISTINGS_FILE}"
-  echo "__FETCH_LISTINGS_END__  @ $(date) Done fetching listings from s3 bucket."
-else
-  cp "${RAW_LISTINGS_FILE}" "${LISTINGS_FILE}"
-  echo "copied listings file from ${RAW_LISTINGS_FILE} to ${LISTINGS_FILE}"
-fi
+# if [ ! -f "${RAW_LISTINGS_FILE}" ]; then
+#   echo "__FETCH_LISTINGS_START__  @ $(date) Fetching listings from s3 bucket..."
+#   s5cmd --profile "$S3_PROFILE" --endpoint-url "$S3_ENDPOINT_URL" \
+#     ls "${S3_BUCKET%/}${S3_CCNET_PREFIX%/}/*" |
+#     grep "\.json\.gz$" | awk '{print $NF}' >"${LISTINGS_FILE}"
+#   echo "__FETCH_LISTINGS_END__  @ $(date) Done fetching listings from s3 bucket."
+# else
+#   cp "${RAW_LISTINGS_FILE}" "${LISTINGS_FILE}"
+#   echo "copied listings file from ${RAW_LISTINGS_FILE} to ${LISTINGS_FILE}"
+# fi
 
-# create a listings for each snapshot id if
-for snapshot_id in "${CC_SNAPSHOT_IDS[@]}"; do
-  if grep "${snapshot_id}" "${LISTINGS_DIR%/}/listings.txt" >/dev/null 2>&1; then
-    grep "${snapshot_id}" "${LISTINGS_DIR%/}/listings.txt" >"${LISTINGS_DIR%/}/listings-${snapshot_id}.txt"
-    echo "__SNAPSHOT_LISTINGS_SUCCESS__ $snapshot_id"
-  else
-    echo "__SNAPSHOT_LISTINGS_FAIL__ $snapshot_id"
-  fi
-done
+# # create a listings for each snapshot id if
+# for snapshot_id in "${CC_SNAPSHOT_IDS[@]}"; do
+#   if grep "${snapshot_id}" "${LISTINGS_DIR%/}/listings.txt" >/dev/null 2>&1; then
+#     grep "${snapshot_id}" "${LISTINGS_DIR%/}/listings.txt" >"${LISTINGS_DIR%/}/listings-${snapshot_id}.txt"
+#     echo "__SNAPSHOT_LISTINGS_SUCCESS__ $snapshot_id"
+#   else
+#     echo "__SNAPSHOT_LISTINGS_FAIL__ $snapshot_id"
+#   fi
+# done
 
-num_listings=$(wc -l <"${ARTIFACTS_DIR%/}/listings/listings.txt")
-echo "Toal number of listings: $num_listings"
+# num_listings=$(wc -l <"${ARTIFACTS_DIR%/}/listings/listings.txt")
+# echo "Toal number of listings: $num_listings"
 
 # copy config to artifacts dir
 cp "$CONFIG_FILE" "${ARTIFACTS_DIR%/}/config.conf"
 
-echo " for now stop here and see if everything works out of the box"
-exit 1
 # Reset artifacts dir on docker mounted volume
 ARTIFACTS_DIR="${DOCKER_MNT_DIR%/}/artifacts-${RUN_ID}"
 for lang in "${LANGUAGES[@]}"; do
   echo "__LANG_PREP_START__ ${lang} @ $(date)"
-  docker run --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
-    -v "${DATA_ROOT%/}":"${DOCKER_MNT_DIR%/}" -t "${DOCKER_REPO}" \
-    python3 src/prep_artifacts.py \
+  # docker run --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+  #   -v "${DATA_ROOT%/}":"${DOCKER_MNT_DIR%/}" -t "${DOCKER_REPO}" \
+    python3 ./app/src/prep_artifacts.py \
     --artifacts_dir "${ARTIFACTS_DIR%/}" \
     --cc_input "${ARTIFACTS_DIR%/}/listings/listings.txt" \
     --cc_input_base_uri "${S3_BUCKET%/}${S3_CCNET_PREFIX%/}" \

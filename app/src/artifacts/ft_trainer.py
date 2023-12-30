@@ -21,8 +21,20 @@ class FastTextTrainer:
             self, artifacts_dir, ccnet_data, target_data, target_name,
             samples_per_class, lang
     ):
+        """
+        Initializes a FastTextTrainer object. Train a model to predict
+        cc-net data vs target data (could be a mix of wiki and other data sources).
 
-        # write args to class variables
+        
+
+        Args:
+            artifacts_dir (str): The directory where the trained model will be saved.
+            ccnet_data (str): The path to the ccnet data file.
+            target_data (List[str]): A list of paths to the target data files.
+            target_name (str): The name of the target.
+            samples_per_class (int): The number of samples per class.
+            lang (str): The language of the data.
+        """
         self._ccnet_data = ccnet_data
         self._target_data = target_data
         self._samples_per_class = samples_per_class
@@ -36,6 +48,12 @@ class FastTextTrainer:
         self._train_data = out_dir / f"{target_name}.data.train"
 
     def run(self, logger):
+        """
+        Runs the FastText training process.
+
+        Args:
+            logger: The logger object for logging messages.
+        """
         log_prefix = f"{self.__class__.__name__}(" \
                      f"lang={self._lang}, ccdata={self._ccnet_data}, " \
                      f"target_data={self._target_data}, " \
@@ -91,6 +109,19 @@ class FastTextTrainer:
     def __write_train_chunk(
             uri, reader: Reader, writer, max_samples, target_label
     ):
+        """
+        Writes a chunk of training data to the train data file.
+
+        Args:
+            uri (str): The URI of the data file.
+            reader (Reader): The reader object for reading the data file.
+            writer: The writer object for writing to the train data file.
+            max_samples (int): The maximum number of samples to write.
+            target_label (str): The label for the target data.
+
+        Returns:
+            int: The number of samples written.
+        """
         num_samples = 0
 
         for record in tqdm(
