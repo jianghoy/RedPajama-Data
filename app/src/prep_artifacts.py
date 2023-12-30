@@ -109,12 +109,18 @@ def main(artifacts_dir: str, cc_input: str, cc_input_base_uri: str,
     logger.info(f"PYTHONHASHSEED: {os.environ.get('PYTHONHASHSEED')}")
 
     # download ccnet dataset
-    ccnet = CCNetDownloader(
-        lang=lang, artifacts_dir=artifacts_dir, cc_input=cc_input,
-        cc_input_base_uri=cc_input_base_uri, num_samples=num_samples,
-        max_workers=max_workers, endpoint_url=endpoint_url
-    )
-    ccnet.run(logger=logger)
+
+    # TO MAKE THINGS EASIER FOR NOW COMMENT OUT CCNET,
+    # if it's truly e2e I wish to see something that combines setting up cc-net along with 
+    # this repo, although we could easily conclude the cc-net is somewhere in together.ai's
+    # infra and ready to be used.
+     
+    # ccnet = CCNetDownloader(
+    #     lang=lang, artifacts_dir=artifacts_dir, cc_input=cc_input,
+    #     cc_input_base_uri=cc_input_base_uri, num_samples=num_samples,
+    #     max_workers=max_workers, endpoint_url=endpoint_url
+    # )
+    # ccnet.run(logger=logger)
 
     # download wikipedia dataset
     wikipedia = WikipediaDownloader(
