@@ -155,17 +155,17 @@ def main(artifacts_dir: str,
 
         hash_dist.run(lang=lang, datafile=fp, dataset=obj.dataset_name)
 
-    if lang == "en":
-        # compute fasttext palm classifier
-        target_name = "palm"
-        target_data = [
-            wikipedia.filepath, books.filepath, openwebtext.filepath
-        ]
-    else:
-        # for non english languages, we use wikipedia as target
-        target_name = f"wikipedia"
-        target_data = [wikipedia.filepath]
-        
+    # if lang == "en":
+    #     # compute fasttext palm classifier
+    #     target_name = "palm"
+    #     target_data = [
+    #         wikipedia.filepath, books.filepath, openwebtext.filepath
+    #     ]
+    # else:
+    #     # for non english languages, we use wikipedia as target
+    #     target_name = f"wikipedia"
+    #     target_data = [wikipedia.filepath]
+
     # Don't need this since we're not using CCNet data
     # trainer = FastTextTrainer(
     #     artifacts_dir=artifacts_dir,

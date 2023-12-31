@@ -14,7 +14,9 @@ _UT1_BLACKLIST_URL = "http://dsi.ut-capitole.fr" \
 _LDNOOBW_URL = "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-" \
                "Naughty-Obscene-and-Otherwise-Bad-Words/master/{lang}"
 
-
+"""
+This seems to be updating the blacklist urls and bad words for filtering cc-net.
+"""
 def _build_category_index(raw_categories) -> Dict[Tuple[str], int]:
     r""" Build a mapping with a list of categories, corresponding to a unique
     combination of categories, to a category ID.

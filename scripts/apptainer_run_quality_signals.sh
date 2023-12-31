@@ -2,7 +2,7 @@
 
 set -e
 trap cleanup_on_error ERR SIGINT SIGTERM
-
+export PYTHONHASHSEED=42
 cleanup_on_error() {
   echo "Error: $0:$LINENO: command \`$BASH_COMMAND\` failed with exit code $?"
   exit 1

@@ -83,7 +83,7 @@ the root directory of the repository, run
 
 ```bash
 bash scripts/run_prep_artifacts_local.sh \
-  --config configs/default.conf \
+  --config configs/default_local.conf \
   --max_workers 4
 ```
 

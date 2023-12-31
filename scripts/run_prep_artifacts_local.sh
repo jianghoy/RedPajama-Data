@@ -40,7 +40,8 @@ set +a
 # create random uuid if not provided
 RUN_ID=$(openssl rand -hex 4)
 echo "Created run id: $RUN_ID"
-
+export PYTHONHASHSEED=42
+echo "export python hash seed: $PYTHONHASHSEED"
 ARTIFACTS_DIR="${DATA_ROOT%/}/artifacts-${RUN_ID}"
 LISTINGS_DIR="${ARTIFACTS_DIR%/}/listings"
 LISTINGS_FILE="${LISTINGS_DIR%/}/listings.txt"
@@ -90,12 +91,9 @@ for lang in "${LANGUAGES[@]}"; do
   #   -v "${DATA_ROOT%/}":"${DOCKER_MNT_DIR%/}" -t "${DOCKER_REPO}" \
     python3 ./app/src/prep_artifacts.py \
     --artifacts_dir "${ARTIFACTS_DIR%/}" \
-    --cc_input "${ARTIFACTS_DIR%/}/listings/listings.txt" \
-    --cc_input_base_uri "${S3_BUCKET%/}${S3_CCNET_PREFIX%/}" \
     --cache_dir "${DOCKER_MNT_DIR%/}/.hf_cache" \
     --lang "${lang}" \
     --max_workers "${MAX_WORKERS}" \
-    --endpoint_url "$DOCKER_S3_ENDPOINT_URL" \
     --dsir_num_samples "${DSIR_NUM_SAMPLES}" \
     --dsir_feature_dim "${DSIR_FEATURE_DIM}" \
     --classifiers_num_samples "${CLASSIFIERS_NUM_SAMPLES}" \
@@ -105,7 +103,7 @@ for lang in "${LANGUAGES[@]}"; do
 done
 
 echo "__UPDATE_CONENTLISTS_START__ @ $(date)"
-docker run -v "${DATA_ROOT%/}":"${DOCKER_MNT_DIR%/}" -t "${DOCKER_REPO}" \
+# docker run -v "${DATA_ROOT%/}":"${DOCKER_MNT_DIR%/}" -t "${DOCKER_REPO}" \
   python3 src/artifacts/update_resources.py \
   --langs "${LANGUAGES[@]}" \
   --artifacts_dir "${ARTIFACTS_DIR%/}" \
