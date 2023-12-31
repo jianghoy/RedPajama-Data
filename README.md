@@ -133,7 +133,7 @@ python3 app/src/bloomfilter.py \
 ```
 
 It is important to choose the correct capacity (i.e., > #documents), since otherwise the `error_rate` will not be
-guaranteed and more false positives will appear. The implementation is based on the
+guaranteed and more false positives will appear([*for those who're curious about this like me, check this out*](https://en.wikipedia.org/wiki/Bloom_filter#Probability_of_false_positives)). The implementation is based on the
 [pybloomfiltermmap3](https://github.com/prashnts/pybloomfiltermmap3) library.
 
 #### Fuzzy Deduplication with Locality Sensitive Hashing
